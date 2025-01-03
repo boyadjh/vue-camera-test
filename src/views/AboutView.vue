@@ -42,7 +42,7 @@ watchEffect(() => {
       </div>
     </div>
     <div>
-      <video ref="video" muted autoplay controls class="h-100 w-auto" />
+      <video :srcObject="stream" ref="video" muted autoplay class="h-100 w-auto" />
     </div>
   </div>
 </template>
