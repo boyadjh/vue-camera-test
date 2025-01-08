@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 
-let video: HtmlVideoElement | null = null;
+let video: HTMLVideoElement | null = null;
 let canvas: HTMLCanvasElement | null = null;
 let context: CanvasRenderingContext2D | null = null;
 
 onMounted(() => {
 
-  canvas = document.getElementById('canvas');
+  canvas = <HTMLCanvasElement>document.getElementById('canvas');
+  if (!canvas) {
+    throw new Error('canvas not found');
+  }
   context = canvas.getContext('2d');
 
   const promise = navigator.mediaDevices.getUserMedia({ video: true });
   promise.then(res => {
-    video = document.createElement('video');
+    video = <HTMLVideoElement>document.createElement('video');
+    if (!video) {
+      throw new Error('video not found');
+    }
     video.srcObject = res;
     video.play();
 
@@ -24,6 +30,9 @@ onMounted(() => {
 });
 
 function updateCanvas() {
+  if (!video) {
+    throw new Error('video not found');
+  }
   context?.drawImage(video, 0, 0);
   window.requestAnimationFrame(updateCanvas);
 }
