@@ -52,7 +52,6 @@ function updateCanvas() {
   if (!video || !canvas) {
     throw new Error('video or canvas not found');
   }
-  console.log(video.videoHeight, video.videoWidth);
   const vRatio: number = (canvas.height / video.videoHeight) * video.videoWidth;
   context?.drawImage(video, 0, 0, vRatio, canvas.height);
   // const imgData: ImageData = context?.getImageData(0, 0, canvas.width, canvas.height);
@@ -81,6 +80,5 @@ function updateCanvas() {
 }
 
 #canvas {
-  width: 600px;
 }
 </style>
