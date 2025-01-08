@@ -19,6 +19,8 @@ onMounted(() => {
     if (!video) {
       throw new Error('video not found');
     }
+    video.autoplay = true;
+    video.playsInline = true;
     video.srcObject = res;
     video.play();
 
