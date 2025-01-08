@@ -28,7 +28,10 @@ onMounted(() => {
 
   context = canvas.getContext('2d');
 
-  const promise = navigator.mediaDevices.getUserMedia({ video: true });
+  const promise = navigator.mediaDevices.getUserMedia({
+    video: {
+      width: { ideal: 1280 }, height: { ideal: 720 },
+      frameRate: { ideal: 60 } } });
 
   promise.then(res => {
 
@@ -54,6 +57,7 @@ function updateCanvas() {
   }
   const vRatio: number = (canvas.height / video.videoHeight) * video.videoWidth;
   context?.drawImage(video, 0, 0, vRatio, canvas.height);
+  // context?.drawImage(video, 0, 0);
   // const imgData: ImageData = context?.getImageData(0, 0, canvas.width, canvas.height);
   // for(let i = 0; i < imgData.data.length; i += 3) {
   //   for (let j = i; j < i+3; j++) {
@@ -80,5 +84,7 @@ function updateCanvas() {
 }
 
 #canvas {
+  height: 720px;
+  width: 1280px;
 }
 </style>
