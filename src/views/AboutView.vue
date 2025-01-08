@@ -6,11 +6,11 @@ let canvas: HTMLCanvasElement | null = null;
 let context: CanvasRenderingContext2D | null = null;
 
 function photo(): void {
-  const dataUrl = canvas?.toDataURL('image/png');
+  const dataUrl = canvas?.toDataURL('image/png') + '';
   downloadImage(dataUrl);
 }
 
-function downloadImage(data, filename = 'untitled.jpeg') {
+function downloadImage(data: string, filename = 'untitled.jpeg') {
   const a = document.createElement('a');
   a.href = data;
   a.download = filename;
