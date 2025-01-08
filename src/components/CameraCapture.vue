@@ -30,6 +30,8 @@ onMounted(() => {
         throw new Error('Error creating video element')
       }
       video.srcObject = res
+      video.autoplay = true
+      video.playsInline = true
       video.play()
 
       const settings = res.getVideoTracks()[0].getSettings()
