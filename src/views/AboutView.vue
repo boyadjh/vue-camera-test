@@ -5,20 +5,33 @@ let video: HTMLVideoElement | null = null;
 let canvas: HTMLCanvasElement | null = null;
 let context: CanvasRenderingContext2D | null = null;
 
+function photo(): void {
+  const dataUrl = canvas?.toDataURL('image/png');
+  downloadImage(dataUrl);
+}
+
+function downloadImage(data, filename = 'untitled.jpeg') {
+  const a = document.createElement('a');
+  a.href = data;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+}
+
 onMounted(() => {
 
-  alert('start');
+
   canvas = <HTMLCanvasElement>document.getElementById('canvas');
   if (!canvas) {
     throw new Error('canvas not found');
   }
-  alert('canvas found');
+
   context = canvas.getContext('2d');
 
   const promise = navigator.mediaDevices.getUserMedia({ video: true });
-  alert('promise started');
+
   promise.then(res => {
-    alert('inner promise');
+
     video = <HTMLVideoElement>document.createElement('video');
     if (!video) {
       throw new Error('video not found');
@@ -36,15 +49,25 @@ onMounted(() => {
 });
 
 function updateCanvas() {
-  if (!video) {
-    throw new Error('video not found');
+  if (!video || !canvas) {
+    throw new Error('video or canvas not found');
   }
-  context?.drawImage(video, 0, 0);
+  console.log(video.videoHeight, video.videoWidth);
+  const vRatio: number = (canvas.height / video.videoHeight) * video.videoWidth;
+  context?.drawImage(video, 0, 0, vRatio, canvas.height);
+  // const imgData: ImageData = context?.getImageData(0, 0, canvas.width, canvas.height);
+  // for(let i = 0; i < imgData.data.length; i += 3) {
+  //   for (let j = i; j < i+3; j++) {
+  //     imgData.data[j] = 255-imgData.data[j];
+  //   }
+  // }
+  // context?.putImageData(imgData, 0, 0);
   window.requestAnimationFrame(updateCanvas);
 }
 </script>
 
 <template>
+  <button @click="photo()">Save Photo</button>
   <canvas id="canvas"></canvas>
 </template>
 
@@ -58,7 +81,6 @@ function updateCanvas() {
 }
 
 #canvas {
-  width: 300px;
-  aspect-ratio: 16/9;
+  width: 600px;
 }
 </style>
