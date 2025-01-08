@@ -7,14 +7,18 @@ let context: CanvasRenderingContext2D | null = null;
 
 onMounted(() => {
 
+  alert('start');
   canvas = <HTMLCanvasElement>document.getElementById('canvas');
   if (!canvas) {
     throw new Error('canvas not found');
   }
+  alert('canvas found');
   context = canvas.getContext('2d');
 
   const promise = navigator.mediaDevices.getUserMedia({ video: true });
+  alert('promise started');
   promise.then(res => {
+    alert('inner promise');
     video = <HTMLVideoElement>document.createElement('video');
     if (!video) {
       throw new Error('video not found');
